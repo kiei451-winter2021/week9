@@ -1,4 +1,4 @@
-// /.netlify/functions/like
+// /.netlify/functions/create_post
 let firebase = require('./firebase')
 
 exports.handler = async function(event) {
@@ -11,16 +11,19 @@ exports.handler = async function(event) {
   console.log(`user: ${userId}`)
   console.log(`imageUrl: ${imageUrl}`)
 
-  let docRef = await db.collection('posts').add({ 
+  let newPost = { 
     userId: userId,
     username: username, 
     imageUrl: imageUrl, 
     created: firebase.firestore.FieldValue.serverTimestamp()
-  })
+  }
+
+  let docRef = await db.collection('posts').add(newPost)
+  newPost.id = docRef.id
 
   return {
     statusCode: 200,
-    body: docRef.id
+    body: JSON.stringify(newPost)
   }
 
 }

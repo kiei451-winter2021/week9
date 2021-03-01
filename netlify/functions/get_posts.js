@@ -6,7 +6,7 @@ exports.handler = async function(event) {
   let postsData = []                                        // an empty Array
   
   let postsQuery = await db.collection('posts')             // posts from Firestore
-                           .orderBy('created', 'desc')      // ordered by created
+                           .orderBy('created')              // ordered by created
                            .get()
   let posts = postsQuery.docs                               // the post documents themselves
   
@@ -17,13 +17,28 @@ exports.handler = async function(event) {
     let likesQuery = await db.collection('likes')           // likes from Firestore
                              .where('postId', '==', postId) // for the given postId
                              .get()
-    
+    let commentsQuery = await db.collection('comments')     // likes from Firestore
+                             .where('postId', '==', postId) // for the given postId
+                             .get()
+    let commentsData = []                                   // an empty Array
+    let comments = commentsQuery.docs                       // the comments documents
+
+    // loop through the comment documents
+    for (let i=0; i<comments.length; i++) {
+      let comment = comments[i].data()                      // grab the comment data
+      commentsData.push({
+        username: comment.username,                         // the author of the comment
+        text: comment.text                                  // the comment text
+      })
+    }
+
     // add a new Object of our own creation to the postsData Array
     postsData.push({
       id: postId,                                           // the post ID
       imageUrl: postData.imageUrl,                          // the image URL
       username: postData.username,                          // the username
-      likes: likesQuery.size                                // number of likes
+      likes: likesQuery.size,                               // number of likes
+      comments: commentsData                                // an Array of comments
     })
   }
   
