@@ -61,6 +61,17 @@ firebase.auth().onAuthStateChanged(async function(user) {
 })
 
 // given a single post Object, render the HTML and attach event listeners
+// expects an Object that looks similar to:
+// {
+//   id: 'abcdefg',
+//   username: 'brian',
+//   imageURL: 'https://images.unsplash.com/...',
+//   likes: 12,
+//   comments: [
+//     { username: 'brian', text: 'i love tacos!' },
+//     { username: 'ben', text: 'fake news' }
+//   ]
+// }
 async function renderPost(post) {
   let postId = post.id
   document.querySelector('.posts').insertAdjacentHTML('beforeend', `
