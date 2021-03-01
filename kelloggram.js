@@ -60,6 +60,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
   }
 })
 
+// given a single post Object, render the HTML and attach event listeners
 async function renderPost(post) {
   let postId = post.id
   document.querySelector('.posts').insertAdjacentHTML('beforeend', `
@@ -106,21 +107,6 @@ async function renderPost(post) {
       let newNumberOfLikes = parseInt(existingNumberOfLikes) + 1
       document.querySelector(`.post-${postId} .likes`).innerHTML = newNumberOfLikes
     }
-
-    // let querySnapshot = await db.collection('likes')
-    //   .where('postId', '==', postId)
-    //   .where('userId', '==', currentUserId)
-    //   .get()
-
-    // if (querySnapshot.size == 0) {
-    //   await db.collection('likes').add({
-    //     postId: postId,
-    //     userId: currentUserId
-    //   })
-    //   let existingNumberOfLikes = document.querySelector(`.post-${postId} .likes`).innerHTML
-    //   let newNumberOfLikes = parseInt(existingNumberOfLikes) + 1
-    //   document.querySelector(`.post-${postId} .likes`).innerHTML = newNumberOfLikes
-    // }
   })
 
   // listen for the post comment button on this post
@@ -156,6 +142,7 @@ async function renderPost(post) {
   })
 }
 
+// given an Array of comment Objects, loop and return the HTML for the comments
 function renderComments(comments) {
   if (comments) {
     let markup = ''
@@ -168,10 +155,12 @@ function renderComments(comments) {
   }
 }
 
+// return the HTML for one comment, given a single comment Object
 function renderComment(comment) {
   return `<div><strong>${comment.username}</strong> ${comment.text}</div>`
 }
 
+// return the HTML for the new comment form
 function renderCommentForm() {
   let commentForm = ''
   commentForm = `
