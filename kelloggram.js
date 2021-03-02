@@ -18,15 +18,16 @@ firebase.auth().onAuthStateChanged(async function(user) {
       event.preventDefault()
       let postUsername = user.displayName
       let postImageUrl = document.querySelector('#image-url').value
-      let response = await fetch('/.netlify/functions/create_post', {
-        method: 'POST',
-        body: JSON.stringify({
-          userId: user.uid,
-          username: postUsername,
-          imageUrl: postImageUrl
-        })
-      })
-      let post = response.json()
+      // 🔥🔥🔥 Lab
+      // Step 1:   POST fetch the create_post endpoint. Send the currently logged-in
+      //           user's uid and username, and the image URL from the form in the 
+      //           POST request's body.
+      // Step 2-5: Implement the lambda function in create_post.js
+      // Step 6:   The lambda should return an Object of data with information on the
+      //           the post, including the newly created post's ID. Set this to the 
+      //           variable named "post", which is then passed on to the renderPost
+      //           function below. 
+      // 🔥🔥🔥 End Lab
       document.querySelector('#image-url').value = '' // clear the image url field
       renderPost(post)
     })
@@ -60,6 +61,18 @@ firebase.auth().onAuthStateChanged(async function(user) {
   }
 })
 
+// given a single post Object, render the HTML and attach event listeners
+// expects an Object that looks similar to:
+// {
+//   id: 'abcdefg',
+//   username: 'brian',
+//   imageURL: 'https://images.unsplash.com/...',
+//   likes: 12,
+//   comments: [
+//     { username: 'brian', text: 'i love tacos!' },
+//     { username: 'ben', text: 'fake news' }
+//   ]
+// }
 async function renderPost(post) {
   let postId = post.id
   document.querySelector('.posts').insertAdjacentHTML('beforeend', `
@@ -94,33 +107,14 @@ async function renderPost(post) {
     console.log(`post ${postId} like button clicked!`)
     let currentUserId = firebase.auth().currentUser.uid
 
-    let response = await fetch('/.netlify/functions/like', {
-      method: 'POST',
-      body: JSON.stringify({
-        postId: postId,
-        userId: currentUserId
-      })
-    })
-    if (response.ok) {
-      let existingNumberOfLikes = document.querySelector(`.post-${postId} .likes`).innerHTML
-      let newNumberOfLikes = parseInt(existingNumberOfLikes) + 1
-      document.querySelector(`.post-${postId} .likes`).innerHTML = newNumberOfLikes
-    }
+    // 🔥🔥🔥 Code-Along
+    // POST fetch the like endpoint and test for success
+    // 🔥🔥🔥 End Code-Along
 
-    // let querySnapshot = await db.collection('likes')
-    //   .where('postId', '==', postId)
-    //   .where('userId', '==', currentUserId)
-    //   .get()
-
-    // if (querySnapshot.size == 0) {
-    //   await db.collection('likes').add({
-    //     postId: postId,
-    //     userId: currentUserId
-    //   })
-    //   let existingNumberOfLikes = document.querySelector(`.post-${postId} .likes`).innerHTML
-    //   let newNumberOfLikes = parseInt(existingNumberOfLikes) + 1
-    //   document.querySelector(`.post-${postId} .likes`).innerHTML = newNumberOfLikes
-    // }
+    let existingNumberOfLikes = document.querySelector(`.post-${postId} .likes`).innerHTML
+    let newNumberOfLikes = parseInt(existingNumberOfLikes) + 1
+    document.querySelector(`.post-${postId} .likes`).innerHTML = newNumberOfLikes
+  
   })
 
   // listen for the post comment button on this post
@@ -156,6 +150,7 @@ async function renderPost(post) {
   })
 }
 
+// given an Array of comment Objects, loop and return the HTML for the comments
 function renderComments(comments) {
   if (comments) {
     let markup = ''
@@ -168,10 +163,12 @@ function renderComments(comments) {
   }
 }
 
+// return the HTML for one comment, given a single comment Object
 function renderComment(comment) {
   return `<div><strong>${comment.username}</strong> ${comment.text}</div>`
 }
 
+// return the HTML for the new comment form
 function renderCommentForm() {
   let commentForm = ''
   commentForm = `
