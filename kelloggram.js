@@ -107,6 +107,7 @@ async function renderPost(post) {
     console.log(`post ${postId} like button clicked!`)
     let currentUserId = firebase.auth().currentUser.uid
 
+<<<<<<< HEAD
     // 🔥🔥🔥 Code-Along
     // POST fetch the like endpoint and test for success
     // 🔥🔥🔥 End Code-Along
@@ -115,6 +116,20 @@ async function renderPost(post) {
     let newNumberOfLikes = parseInt(existingNumberOfLikes) + 1
     document.querySelector(`.post-${postId} .likes`).innerHTML = newNumberOfLikes
   
+=======
+    let response = await fetch('/.netlify/functions/like', {
+      method: 'POST',
+      body: JSON.stringify({
+        postId: postId,
+        userId: currentUserId
+      })
+    })
+    if (response.ok) {
+      let existingNumberOfLikes = document.querySelector(`.post-${postId} .likes`).innerHTML
+      let newNumberOfLikes = parseInt(existingNumberOfLikes) + 1
+      document.querySelector(`.post-${postId} .likes`).innerHTML = newNumberOfLikes
+    }
+>>>>>>> 09f3e5a0774e75e37897f0ddfc7d54248a757700
   })
 
   // listen for the post comment button on this post
