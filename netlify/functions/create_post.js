@@ -15,9 +15,11 @@ exports.handler = async function(event) {
   //         and a "created" timestamp – can use the built-in function
   //         for this – firebase.firestore.FieldValue.serverTimestamp()
   // Step 4: Add the post to Firestore using the .add() function.
-  // Step 5: Add the newly created post's auto-generated ID to the object
-  //         you created in Step 3, and return that entire object as the
-  //         body of the return value, using JSON.stringify()
+  // Step 5: Assign the newly created post's auto-generated ID as an
+  //         id attribute of the object you created in step 3. Also add
+  //         a likes attribute with a value of 0 (since a new post has
+  //         0 likes). Return that entire object as the body in the
+  //         return value, using JSON.stringify()
 
   return {
     statusCode: 200,
