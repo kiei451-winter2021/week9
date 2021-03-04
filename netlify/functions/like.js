@@ -1,4 +1,4 @@
-// /.netlify/functions/like
+// API url to this lambda funtion: /.netlify/functions/like
 let firebase = require('./firebase')
 
 exports.handler = async function(event) {
