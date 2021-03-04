@@ -24,9 +24,9 @@ firebase.auth().onAuthStateChanged(async function(user) {
       //            POST request's body.
       // Step 2-5:  Implement the lambda function in create_post.js
       // Step 6:    The lambda should return an Object of data with information on the
-      //            the post, including the newly created post's id. Use this JSON response
-      //            object and pass the post's relevant values on to the renderPost()
-      //            function below.
+      //            the post, including the newly created post's id and likes. Use this
+      //            JSON response object and pass the post's relevant values on to the
+      //            renderPost() function below.
       // Step 7:    (optional) Refactor renderPost() function to accept the entire post
       //            object instead of its individual attributes.
       // Challenge: Add functionality for users to comment on posts.
@@ -72,9 +72,9 @@ firebase.auth().onAuthStateChanged(async function(user) {
 //   imageUrl: 'https://images.unsplash.com/...',
 //   likes: 12
 // }
-async function renderPost(id, username, imageUrl, likes) {
+async function renderPost(postId, username, imageUrl, likes) {
   document.querySelector('.posts').insertAdjacentHTML('beforeend', `
-    <div class="post-${id} md:mt-16 mt-8 space-y-8">
+    <div class="post-${postId} md:mt-16 mt-8 space-y-8">
       <div class="md:mx-0 mx-4">
         <span class="font-bold text-xl">${username}</span>
       </div>
