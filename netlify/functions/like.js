@@ -8,6 +8,7 @@ exports.handler = async function(event) {
   // Implement the like function
 
   return {
-    statusCode: 200
+    statusCode: 200,
+    body: JSON.stringify({})
   }
 }
