@@ -3,11 +3,11 @@ let firebase = require('./firebase')
 
 exports.handler = async function(event) {
   let db = firebase.firestore()
-  
+
   // 🔥🔥🔥 Lab
-  // Step 2: Parse out the post data, i.e. the event.body – pull out 
+  // Step 2: Parse out the post data, i.e. the event.body – pull out
   //         the user ID, username, and image URL that is provided
-  //         in the POST request, and assign to variables. Use 
+  //         in the POST request, and assign to variables. Use
   //         console.log if necessary, to ensure the values are what
   //         you're expecting.
   // Step 3: Construct an object of data to send to Firestore – this

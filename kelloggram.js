@@ -20,13 +20,13 @@ firebase.auth().onAuthStateChanged(async function(user) {
       let postImageUrl = document.querySelector('#image-url').value
       // 🔥🔥🔥 Lab
       // Step 1:   POST fetch the create_post endpoint. Send the currently logged-in
-      //           user's uid and username, and the image URL from the form in the 
+      //           user's uid and username, and the image URL from the form in the
       //           POST request's body.
       // Step 2-5: Implement the lambda function in create_post.js
       // Step 6:   The lambda should return an Object of data with information on the
-      //           the post, including the newly created post's ID. Set this to the 
+      //           the post, including the newly created post's ID. Set this to the
       //           variable named "post", which is then passed on to the renderPost
-      //           function below. 
+      //           function below.
       // 🔥🔥🔥 End Lab
       document.querySelector('#image-url').value = '' // clear the image url field
       renderPost(post)
@@ -80,11 +80,11 @@ async function renderPost(post) {
       <div class="md:mx-0 mx-4">
         <span class="font-bold text-xl">${post.username}</span>
       </div>
-  
+
       <div>
         <img src="${post.imageUrl}" class="w-full">
       </div>
-  
+
       <div class="text-3xl md:mx-0 mx-4">
         <button class="like-button">❤️</button>
         <span class="likes">${post.likes}</span>
@@ -93,7 +93,7 @@ async function renderPost(post) {
       <div class="comments text-sm md:mx-0 mx-4 space-y-2">
         ${renderComments(post.comments)}
       </div>
-  
+
       <div class="w-full md:mx-0 mx-4">
         ${renderCommentForm()}
       </div>
