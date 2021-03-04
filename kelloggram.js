@@ -24,19 +24,19 @@ firebase.auth().onAuthStateChanged(async function(user) {
       //           POST request's body.
       // Step 2-5: Implement the lambda function in create_post.js
       // Step 6:   The lambda should return an Object of data with information on the
-      //           the post, including the newly created post's ID. Set this to the
-      //           variable named "post", which is then passed on to the renderPost
+      //           the post, including the newly created post's id. Use this JSON response
+      //           object and pass the post's relevant values on to the renderPost()
       //           function below.
       // 🔥🔥🔥 End Lab
       document.querySelector('#image-url').value = '' // clear the image url field
-      renderPost(post)
+      renderPost(postId, postUsername, postImageUrl, numberOfLikes)
     })
 
     let response = await fetch('/.netlify/functions/get_posts')
     let posts = await response.json()
     for (let i=0; i<posts.length; i++) {
       let post = posts[i]
-      renderPost(post)
+      renderPost(post.id, post.username, post.imageUrl, post.likes)
     }
   } else {
     // Signed out
@@ -62,28 +62,27 @@ firebase.auth().onAuthStateChanged(async function(user) {
 })
 
 // given a single post Object, render the HTML and attach event listeners
-// expects an Object that looks similar to:
+// expects attributes from an Object that looks similar to:
 // {
 //   id: 'abcdefg',
 //   username: 'brian',
 //   imageUrl: 'https://images.unsplash.com/...',
 //   likes: 12
 // }
-async function renderPost(post) {
-  let postId = post.id
+async function renderPost(id, username, imageUrl, likes) {
   document.querySelector('.posts').insertAdjacentHTML('beforeend', `
-    <div class="post-${postId} md:mt-16 mt-8 space-y-8">
+    <div class="post-${id} md:mt-16 mt-8 space-y-8">
       <div class="md:mx-0 mx-4">
-        <span class="font-bold text-xl">${post.username}</span>
+        <span class="font-bold text-xl">${username}</span>
       </div>
 
       <div>
-        <img src="${post.imageUrl}" class="w-full">
+        <img src="${imageUrl}" class="w-full">
       </div>
 
       <div class="text-3xl md:mx-0 mx-4">
         <button class="like-button">❤️</button>
-        <span class="likes">${post.likes}</span>
+        <span class="likes">${likes}</span>
       </div>
     </div>
   `)
