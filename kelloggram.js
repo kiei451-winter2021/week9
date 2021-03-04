@@ -27,6 +27,8 @@ firebase.auth().onAuthStateChanged(async function(user) {
       //           the post, including the newly created post's id. Use this JSON response
       //           object and pass the post's relevant values on to the renderPost()
       //           function below.
+      // Step 7:   (optional) Refactor renderPost() function to accept the entire post
+      //           object instead of its individual attributes.
       // 🔥🔥🔥 End Lab
       document.querySelector('#image-url').value = '' // clear the image url field
       renderPost(postId, postUsername, postImageUrl, numberOfLikes)
